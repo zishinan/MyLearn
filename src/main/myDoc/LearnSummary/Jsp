@@ -1,0 +1,4 @@
+1：getServletContext()取得的是 <context-param>配置的参数 
+  getServletConfig()取得的是 <servlet> <init-param>配置的参数
+2： getServletContext()应用于整个web App,而getServletConfig()仅应用于当前Servlet。 但是ServletConfig对象拥有ServletContext的引用。所以可以通过getServletConfig()
+来获得web App的初始值。

@@ -1,0 +1,26 @@
+ 在windows用eclipse调用手机时，要安装驱动，但在linux/centos下调用android手机时，不用安装驱动，linux/centos会识别到手机。
+
+Step1:使用下面命令监视系统信息
+
+[root@droid ~]# tail -f /var/log/messages
+
+Step2:创建个文件
+
+[root@droid dev]# vi /etc/udev/rules.d/50-android.rules
+SUBSYSTEMS=="usb",ATTRS{idVendor}=="0bb4",SYMLINK+="android_adb",OWNER="root"
+
+ATTRS{idVendor} 为 idVendor 参数上面有对照
+SYMLINK 参数使设备目录增加一个连接文件指向原设备文件
+OWNER为你当前的用户，也是你运行adb服务的用户
+(注意，我们的目的就是使android手机调试设备文件的所有者权限与开启的 adb 服务的所有者权限相一致，这样usb设备才能被adb服务识别)。
+
+Step3:修改权限并执行
+
+[root@droid ~]# chmod a+rx /etc/udev/rules.d/50-android.rules 
+
+./50-android.rules 
+
+Step4:
+
+4重新插入USB，生成新的设备文件
+这时会在/dev/下出现一个连接文件android_adb，它指向的设备就是你的USB调试的手机设备。

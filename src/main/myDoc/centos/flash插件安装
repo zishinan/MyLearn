@@ -1,0 +1,12 @@
+1.下载地址：http://get.adobe.com/cn/flashplayer/  
+下载压缩包 install_flash_player_11_linux_x86_64.tar.gz
+
+安装步骤：
+1.解压缩文件：
+tar -xzvf install_flash_player_11_linux_x86_64.tar.gz
+会解出一个文件：libflashplayer.so 和一个目录 usr
+
+2.将文件libflashplayer.so 拷贝到目录  ~/.mozilla/plugins/
+cp libflashplayer.so ~/.mozilla/plugins/
+
+3.重启firefox即可！

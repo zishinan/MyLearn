@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>CheckBox Tree - jQuery EasyUI Demo</title>
+	<link rel="stylesheet" type="text/css" href="../../themes/default/easyui.css">
+	<link rel="stylesheet" type="text/css" href="../../themes/icon.css">
+	<link rel="stylesheet" type="text/css" href="../demo.css">
+	<script type="text/javascript" src="../../jquery.min.js"></script>
+	<script type="text/javascript" src="../../jquery.easyui.min.js"></script>
+</head>
+<body>
+	<h2>CheckBox Tree</h2>
+	<p>Tree nodes with check boxes.</p>
+	<div style="margin:20px 0;">
+		<a href="#" class="easyui-linkbutton" onclick="getChecked()">GetChecked</a> 
+	</div>
+	<div style="margin:10px 0">
+		<input type="checkbox" checked onchange="$('#tt').tree({cascadeCheck:$(this).is(':checked')})">CascadeCheck 
+		<input type="checkbox" onchange="$('#tt').tree({onlyLeafCheck:$(this).is(':checked')})">OnlyLeafCheck
+	</div>
+	<div class="easyui-panel" style="padding:5px">
+		<ul id="tt" class="easyui-tree" data-options="animate:true,checkbox:true"></ul>
+	</div>
+	<script type="text/javascript">
+
+		    $('#tt').tree({
+    url: 'tree_data.json',
+    loadFilter: function(rows){
+    return convert(rows);
+    }
+    });
+
+		function getChecked(){
+			var nodes = $('#tt').tree('getChecked');
+			var s = '';
+			for(var i=0; i<nodes.length; i++){
+				if (s != '') s += ',';
+				s += nodes[i].id;
+			}
+			alert(s);
+		}
+
+		    function convert(rows) {
+			function exists(rows, parentId) {
+				for ( var i = 0; i < rows.length; i++) {
+					if (rows[i].id == parentId)
+						return true;
+				}
+				return false;
+			}
+			var nodes = [];
+			// get the top level nodes
+			for ( var i = 0; i < rows.length; i++) {
+				var row = rows[i];
+				if (!exists(rows, row.parentId)) {
+					nodes.push({
+						id : row.id,
+						text : row.name,
+						checked:row.checked
+					});
+				}
+			}
+			var toDo = [];
+			for ( var i = 0; i < nodes.length; i++) {
+				toDo.push(nodes[i]);
+			}
+			while (toDo.length) {
+				var node = toDo.shift(); // the parent node
+				// get the children nodes
+				for ( var i = 0; i < rows.length; i++) {
+					var row = rows[i];
+					if (row.parentId == node.id) {
+						var child = {
+							id : row.id,
+							text : row.name,
+							checked:row.checked
+						};
+						if (node.children) {
+							node.children.push(child);
+						} else {
+							node.children = [ child ];
+						}
+						toDo.push(child);
+					}
+				}
+			}
+			return nodes;
+		}
+	</script>
+</body>
+</html>

@@ -1,0 +1,18 @@
+1.防火墙
+查看防火墙        cat /etc/sysconfig/iptables
+查看防火墙状态    /etc/init.d/iptables status
+禁止防火墙自启动  /sbin/chkconfig --level 2345 iptables off
+关闭防火墙        /etc/init.d/iptables stop
+重启iptables      /etc/init.d/iptables restart
+
+3.硬件详情
+
+4.系统状态，任务管理
+
+5.计划任务
+
+6.网络的配置
+
+7.开机自动运行，系统服务，linux开机详细步骤
+
+8.环境部署(ssh,ftp)，软件管理

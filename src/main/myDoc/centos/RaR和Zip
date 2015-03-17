@@ -1,0 +1,8 @@
+wget http://www.rarsoft.com/rar/rarlinux-4.0.1.tar.gz
+tar -zxvf rarlinux-4.0.1.tar.gz
+cd rar 
+make
+
+先记住两个常用命令吧：
+rar x vpsyou.rar //解压 vpsyou.rar 到当前目录
+rar vpsyou.rar ./vpsyou.com/ //将 vpsyou.com 目录打包为 vpsyou.rar

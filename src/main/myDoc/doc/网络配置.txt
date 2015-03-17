@@ -1,0 +1,23 @@
+Centos 网络设置相关的配置文件：
+
+    文件 /etc/sysconfig/network：可设置网络开启状态、默认接口、默认网关、主机名、域名等
+    目录 /etc/sysconfig/network-scripts：各网络接口的控制脚本，如 ifcfg-eth0，可设置接口的类型、IP、网关、MAC、开机状态等
+    文件 /etc/resolv.conf：设置本机解析网址的DNS信息，可设置DNS名称服务器地址（最多3个）、本地域名、搜索列表等
+    文件 /etc/hosts：设置主机名到IP的映射，如本机的localhost、主机名，到其它机器域名或主机名。一般先解析名称，再解析DNS
+    文件 /etc/nsswitch.conf：可设置名称解析顺序（hosts节），指定先搜索 /etc/hosts 还是先搜索 /etc/resolv.conf 定义的DNS
+
+ 
+
+Centos 网络设置相关的命令：
+
+    service network restart/stop/start/status ：网络服务管理命令
+        网络参数改变后需要重启整个网络或对应网络接口
+        与 /etc/init.d/network restart 等效，是对服务脚本程序/etc/init.d/network各个参数的运行
+    ifconfig：网络接口管理，可查看和控制网络接口状态、修改接口参数等
+        ifconfig ethX：查看某一网络接口ethX的状态。不指定接口时，表示查看所有
+        ifconfig ethX down/up：针对某一网络接口ethX的管理（开启/关闭）
+        ifconfig ethX inet 192.168.1.11 netmask 255.255.255.0：修改某一接口的网络设置
+    netstat：查看网络使用状态（统计）
+    hostname：显示或修改主机名称（重启后无效）
+    ping -c 4：向目标地址发送ICMP信息包的方式，来确定目标主机是否在工作或网络联通与否
+    traceroute ：跟踪路由路径

@@ -1,0 +1,30 @@
+windows安装
+1 echo %JAVA_HOME% 和   java -version 两个命令检查JDK环境
+2 配置环境变量 M2_HOME M2 MAVEN_OPTS(-Xms256m -Xmx512m) path中加M2
+3 mvn --version 测试是否安装成功
+4 setting中修改本地库地址
+
+命令：
+	help:system				打印系统属性和环境变量，下载maven-help-plugin
+	ping repo1.maven.org	检查中央仓库连接是否可用
+	mvn clean compile		重新编译
+	mvn clean test			重新编译并Junit
+	mvn clean package		打包
+	mvn clean install		安装，让其他项目能够使用此项目
+	mvn archetype:generate	定制项目骨架
+	mvn dependency:list		查看已解析依赖
+	mvn dependency:tree		查看已解析依赖树
+	mvn dependency:analyes	分析项目依赖
+	mvn assembly:assembly	生成可执行并存在依赖的jar
+
+
+pom文件：
+	modelVersion	pom模型版本，maven2和maven3都只能是4.0.0
+	groupId			组名com.ouyang.maven
+	artifactId		组名中的项目唯一标识
+	version			版本
+	classifier		附属构建如doc等，不能直接定义
+	
+	repositories	远程仓库
+	
+	<scope>test</scope>		依赖范围，测试时有效

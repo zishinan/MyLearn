@@ -1,0 +1,4 @@
+window.location.href 打开页面马上跳转到新的当前项目请求地址
+如：window.location.href="login.action";
+
+

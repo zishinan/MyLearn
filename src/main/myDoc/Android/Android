@@ -1,0 +1,73 @@
+目录结构
+src/	java原代码存放目录
+gen/	自动生成目录
+gen		目录中存放所有由Android开发工具自动生成的文件。目录中最重要的就是R.java文件。 这个文件由Android开发工具自动产生的。Android开发工具会自动根据你放入res目录的资源，同步更新修改R.java文件。正因为R.java文件是由开发工具自动生成的，所以我们应避免手工修改R.java。R.java在应用中起到了字典的作用，它包含了各种资源的id，通过R.java，应用可以很方便地找到对应资源。另外编绎器也会检查R.java列表中的资源是否被使用到，没有被使用到的资源不会编绎进软件中，这样可以减少应用在手机占用的空间。
+res/	资源(Resource)目录
+在这个目录中我们可以存放应用使用到的各种资源，如xml界面文件，图片或数据。具体请看ppt下方备注栏。
+assets资源目录
+Android除了提供/res目录存放资源文件外，在/assets目录也可以存放资源文件，而且/assets目录下的资源文件不会在R.java自动生成ID，所以读取/assets目录下的文件必须指定文件的路径，如：file:///android_asset/xxx.3gp
+AndroidManifest.xml 项目清单文件
+ 这个文件列出了应用程序所提供的功能，以后你开发好的各种组件需要在该文件中进行配置，如果应用使用到了系统内置的应用(如电话服务、互联网服务、短信服务、GPS服务等等)，你还需在该文件中声明使用权限。
+default.properties 项目环境信息，一般是不需要修改此文件
+
+
+Layout
+	LinearLayout (线性布局)
+	AbsoluteLayout(绝对布局)
+	RelativeLayout(相对布局)
+	TableLayout(表格布局)
+	FrameLayout(帧布局)
+	
+	
+	
+显示单位
+	px (pixels)像素	一般HVGA代表320x480像素，这个用的比较多。
+	dip或dp			(device independent pixels)设备独立像素，这个和设备硬件有关，一般为了支持WVGA、HVGA和QVGA 推荐使用这个，不依赖像素。
+	sp				(scaled pixels — best for text size)比例像素，主要处理字体的大小，可以根据系统的字体自适应。
+	
+	除了上面三个显示单位，下面还有几个不太常用：
+	in (inches)英寸
+	mm (millimeters)毫米 
+	pt (points)点，1/72英寸
+	为了适应不同分辨率，不同的像素密度，推荐使用dip ，文字使用sp。
+
+
+
+
+
+
+Intent 数据传递（bundle）、视图切换（setClass（class,class））
+
+Context 上下文 activity就是一个Context
+	startService()启动服务，调用者和服务没有关联。
+	bindService()启动服务，调用者和服务绑定在一起，调用者退出，服务也停止运行。
+	
+	
+android.content.SharedPreferences.Editor
+	用于修改SharedPreferences对象设定值的接口。
+
+android.app.Activity
+	finish()	将最上面的Activity移出栈，不释放资源
+	onDestory()	释放资源
+
+
+xml文档解析  sax pull dom 三种方式，推荐使用sax,不推荐使用dom
+
+
+
+
+
+
+当应用不再使用时，通常需要关闭应用，可以使用以下三种方法关闭android应用：
+
+第一种方法：首先获取当前进程的id，然后杀死该进程。 （建议使用）
+android.os.Process.killProcess(android.os.Process.myPid())
+
+第二种方法：终止当前正在运行的Java虚拟机，导致程序终止
+System.exit(0);
+
+第三种方法：强制关闭与该包有关联的一切执行
+ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);    
+manager.restartPackage(getPackageName());
+<uses-permission android:name="android.permission.RESTART_PACKAGES" />
+	

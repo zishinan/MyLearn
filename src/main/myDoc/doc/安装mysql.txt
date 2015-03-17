@@ -1,0 +1,180 @@
+1.下载MySQL
+我下载的版本：mysql-5.5.22.tar.gz
+
+2.安装之前先卸载CentOS自带的MySQL
+[root@localhost ~]# yum remove mysql
+
+3.编译安装Cmake
+下载cmake源码包：http://www.cmake.org/files/v2.8/cmake-2.8.4.tar.gz
+
+从共享目录移至usr目录
+[root@localhost ~]# mv /mnt/hgfs/Share-CentOS/cmake-2.8.4.tar.gz /usr/cmake-2.8.4.tar.gz
+[root@localhost ~]# cd /usr
+
+解压并安装cmake
+[root@localhost usr]# tar xzvf cmake-2.8.4.tar.gz
+[root@localhost usr]# cd cmake-2.8.4
+[root@localhost cmake-2.8.4]# ./bootstrap
+
+---------------------------------------------
+CMake 2.8.4, Copyright 2000-2009 Kitware, Inc.
+---------------------------------------------
+Error when bootstrapping CMake:
+Cannot find appropriate C compiler on this system.
+Please specify one using environment variable CC.
+See cmake_bootstrap.log for compilers attempted.
+
+---------------------------------------------
+Log of errors: /usr/local/src/cmake-2.8.4/Bootstrap.cmk/cmake_bootstrap.log
+---------------------------------------------
+报错：缺少C的编译器
+解决办法：安装gcc编译器
+[root@localhost ~]# yum install gcc
+
+继续安装Cmake
+[root@localhost cmake-2.8.4]# ./bootstrap
+
+---------------------------------------------
+CMake 2.8.4, Copyright 2000-2009 Kitware, Inc.
+C compiler on this system is: cc
+---------------------------------------------
+Error when bootstrapping CMake:
+Cannot find appropriate C++ compiler on this system.
+Please specify one using environment variable CXX.
+See cmake_bootstrap.log for compilers attempted.
+---------------------------------------------
+Log of errors: /usr/local/src/cmake-2.8.4/Bootstrap.cmk/cmake_bootstrap.log
+---------------------------------------------
+报错：缺少C++编译器
+解决办法：安装gcc-c++编译器
+[root@localhost ~]# yum install gcc-c++
+
+再次安装
+[root@localhost cmake-2.8.4]# ./bootstrap
+没有报错，编译安装
+[root@localhost cmake-2.8.4]# gmake
+[root@localhost cmake-2.8.4]# gmake install
+
+4.正式开始安装MySQL
+添加MySQL用户和用户组
+[root@localhost ~]# groupadd mysql
+[root@localhost ~]# useradd -g mysql mysql
+
+MySQL源码包从共享文件夹移至/usr并解压
+[root@localhost ~]mv /mnt/hgfs/Share-CentOS/mysql-5.5.22.tar.gz /usr/mysql-5.5.22.tar.gz
+[root@localhost usr]# tar xzvf mysql-5.5.22.tar.gz
+[root@localhost usr]# cd mysql-5.5.22
+
+Cmake运行
+[root@localhost mysql-5.5.22]# cmake .
+
+开始编译安装
+[root@localhost mysql-5.5.22]# make && make install
+
+进入安装目录，将程序二进制的所有权改为root，数据目录的说有权改为mysql用户，更新授权表
+[root@localhost mysql-5.5.22]# cd /usr/local/mysql/
+[root@localhost mysql]# chown -R root .
+[root@localhost mysql]# chown -R mysql .
+[root@localhost mysql]# chgrp -R mysql .
+[root@localhost mysql]# scripts/mysql_install_db --user=mysql
+
+安全启动MySQL(默认密码为空)
+[root@localhost mysql]#./bin/mysqld_safe --user=mysql&
+
+报错：
+
+120908 00:16:25 mysqld_safe Logging to '/usr/local/mysql/data/CentOS.err'.
+120908 00:16:26 mysqld_safe Starting mysqld daemon with databases from /usr/local/mysql/data
+
+解决方法：
+[root@CentOS ~]# cd /usr/local/mysql/data
+
+[root@CentOS data]# ls -l
+总用量 29744
+-rw-rw----  1 mysql root      1585 9月   8 00:16 CentOS.err
+-rw-rw----  1 mysql mysql        6 9月   8 00:16 CentOS.pid
+-rw-rw----  1 mysql mysql 18874368 9月   8 00:16 ibdata1
+-rw-rw----  1 mysql mysql  5242880 9月   8 00:16 ib_logfile0
+-rw-rw----  1 mysql mysql  5242880 9月   8 00:16 ib_logfile1
+drwxr-xr-x  2 mysql mysql     4096 9月   8 00:14 mysql
+-rw-rw----  1 mysql mysql    27293 9月   8 00:14 mysql-bin.000001
+-rw-rw----  1 mysql mysql  1031892 9月   8 00:14 mysql-bin.000002
+-rw-rw----  1 mysql mysql      107 9月   8 00:16 mysql-bin.000003
+-rw-rw----  1 mysql mysql       57 9月   8 00:16 mysql-bin.index
+drwx------  2 mysql mysql     4096 9月   8 00:14 performance_schema
+drwxr-xr-x  2 mysql mysql     4096 9月   8 00:08 test
+[root@CentOS data]# chgrp -R mysql CentOS.err
+[root@CentOS data]# ls -l
+总用量 29736
+-rw-rw---- 1 mysql mysql     1585 9月   8 00:16 CentOS.err
+-rw-rw---- 1 mysql mysql        6 9月   8 00:16 CentOS.pid
+-rw-rw---- 1 mysql mysql 18874368 9月   8 00:16 ibdata1
+-rw-rw---- 1 mysql mysql  5242880 9月   8 00:16 ib_logfile0
+-rw-rw---- 1 mysql mysql  5242880 9月   8 00:16 ib_logfile1
+drwxr-xr-x 2 mysql mysql     4096 9月   8 00:14 mysql
+-rw-rw---- 1 mysql mysql    27293 9月   8 00:14 mysql-bin.000001
+-rw-rw---- 1 mysql mysql  1031892 9月   8 00:14 mysql-bin.000002
+-rw-rw---- 1 mysql mysql      107 9月   8 00:16 mysql-bin.000003
+-rw-rw---- 1 mysql mysql       57 9月   8 00:16 mysql-bin.index
+drwx------ 2 mysql mysql     4096 9月   8 00:14 performance_schema
+drwxr-xr-x 2 mysql mysql     4096 9月   8 00:08 test
+
+连接本机MySQL
+[root@localhost mysql]#mysql –u root –p
+提示输入password，默认为空，按Enter即可
+
+断开连接
+mysql>exit;
+
+为root账户设置密码
+[root@localhost ~]# cd /usr/local/mysql/bin
+[root@localhost mysql]# ./bin/mysqladmin -u root password 123456
+Enter Password:123456
+
+设置选项文件，将配置文件拷贝到/etc下
+[root@localhost mysql]# cp support-files/my-medium.cnf /etc/mysql.cnf
+
+设置开机自启动
+[root@localhost mysql]# cp support-files/mysql.server /etc/init.d/mysql
+[root@localhost mysql]# chmod +x /etc/init.d/mysql
+
+通过服务来启动和关闭Mysql
+[root@localhost ~]# service mysql start
+[root@localhost ~]# service mysql stop
+
+5.安装设置完毕，之后使用只需启动-连接-断开-关闭，命令如下：
+[root@CentOS mysql]# service mysql start
+Starting MySQL..                                           [确定]
+[root@CentOS mysql]# mysql -u root -p
+Enter password:
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 1
+Server version: 5.5.22 Source distribution
+
+Copyright (c) 2000, 2011, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| test               |
++--------------------+
+4 rows in set (0.07 sec)
+
+mysql> exit;
+Bye
+[root@CentOS mysql]# service mysql stop
+Shutting down MySQL.                                       [确定]
+
+6.其它：
+查看进程命令 ps –ef|grep mysqld
+kill进程命令 kill –9 进程号 

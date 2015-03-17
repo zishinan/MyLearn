@@ -1,0 +1,11 @@
+String：不可变字符串常量；
+
+StringBuffer:线程安全；
+
+StringBuilder:非线程安全，优先使用替代String;
+
+
+length和size：
+	字符串提供一个length()方法；
+	数组提供一个length属性；
+	集合提供一个size()方法；

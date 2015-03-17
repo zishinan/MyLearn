@@ -1,0 +1,51 @@
+CountDownLatch
+
+public CountDownLatch(int count);				初始化计数个数
+public void countDown();						减少一个计数
+public void await() throws InterruptedException 等待直到计数为0
+public boolean await(30, TimeUnit.MINUTES);		等待直到计数为0或者时间到
+
+
+ThreadPoolExecutor
+execute(Runnable r)		开启一个线程执行任务
+
+
+
+Demo:
+
+
+final CountDownLatch latch = new CountDownLatch(list.size()) ;
+private static ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(50);
+for(String s : list)
+{
+	executor.execute(new Runnable() 
+	{
+		@Override
+		public void run() 
+		{
+			try
+			{
+			}
+			catch
+			{
+			}
+			finally
+			{
+				latch.countDown();
+			}
+		}
+	}
+}
+
+try 
+{
+	latch.await() ;
+} 
+catch (InterruptedException e) 
+{
+	e.printStackTrace();
+}
+
+executor.shutdown();
+
+
