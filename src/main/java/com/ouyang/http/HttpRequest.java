@@ -13,7 +13,9 @@ public class HttpRequest {
 	
 	public static void main(String[] args) {
         //发送 GET 请求
-        String s=HttpRequest.sendPost("https://www.nike.com/profile/login", "Content-Locale=zh_CN&login=1006652872@qq.com&password=Zishinan@198615&rememberMe=false");
+        String s=HttpRequest.sendPost("http://db.dota.uuu9.com/hero/list",null);
+        
+        
         System.out.println(s);
         
 //        //发送 POST 请求
