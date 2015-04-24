@@ -1,8 +1,10 @@
-并发编程慎用static方法，注意公用变量的同步问题（例如：MD5工具的加密出现相同字符串加密结果不同）
+并发编程慎用static方法，注意公用变量的同步问题（例如：MD5工具的加密出现相同字符串加密结果不同 ） 同时,注意java SimpleDateFormat线程不安全
 
 
 junit不支持多线程测试 Thread.sleep() 阻断其他线程
 
 mysql bigint 类型陷阱 js解析过大的long型会丢失精度
+
+java SimpleDateFormat线程不安全
 
 
