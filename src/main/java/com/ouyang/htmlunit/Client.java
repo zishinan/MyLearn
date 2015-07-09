@@ -11,9 +11,8 @@ import org.apache.log4j.Logger;
 import com.gargoylesoftware.htmlunit.FailingHttpStatusCodeException;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
-import com.gargoylesoftware.htmlunit.html.HtmlDivision;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
-import com.ouyang.util.StringUtil;
+import com.ouyang.util.string.StringUtil;
 
 public class Client {
 	private static Logger logger = Logger.getLogger(Client.class);
