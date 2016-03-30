@@ -19,7 +19,7 @@ public class TheNine {
 	private static final Logger logger = Logger.getLogger(TheNine.class);
 
 	public static void main(String[] args) {
-		int num = 11;
+		int num = 10000;
 		int[][] arr = new int[3][3];
 		arr[0][2] = 9;
 		for (int i = 0; i <= num; i++) {
@@ -41,6 +41,9 @@ public class TheNine {
 					}
 					arr[2][0] = arr[1][0]/(4-arr[0][0]);
 					if(arr[2][0] < 0 || arr[2][0] > num){
+						continue;
+					}
+					if(arr[2][0] == 0){
 						continue;
 					}
 					if(arr[1][1] != 0){
