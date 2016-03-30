@@ -6,6 +6,10 @@ import java.util.Map;
 import java.util.Set;
 
 
+/**
+ * 破解游戏-聚变-各个关卡
+ * @author <a href="xi.yang@i-jia.net">yangxi</a>
+ */
 public class CrackJuhe {
 	public static void main(String[] args) {
 		Level81 levels = new Level81();
